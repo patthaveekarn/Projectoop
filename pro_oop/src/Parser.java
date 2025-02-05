@@ -1,9 +1,9 @@
 import java.util.*;
 
-public class MinionStrategyParser {
+public class Parser {
     private Tokenizer tokenizer;
 
-    public MinionStrategyParser(String code) {
+    public Parser(String code) {
         this.tokenizer = new Tokenizer(code);
     }
 
