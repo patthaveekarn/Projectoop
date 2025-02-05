@@ -1,4 +1,4 @@
-package project.kombat.model;
+package src.main.java.project.kombat.model;
 
 import java.util.ArrayList;
 import java.util.List;

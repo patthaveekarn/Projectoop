@@ -1,4 +1,4 @@
-package project.kombat.model;
+package src.main.java.project.kombat.model;
 
 
 public class Minion {
