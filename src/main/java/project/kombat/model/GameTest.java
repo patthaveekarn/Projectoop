@@ -1,7 +1,7 @@
-package project.kombat.model;
+package src.main.java.project.kombat.model;
 
 
-public class MainTest {
+public class GameTest {
     public static void main(String[] args) {
         // สร้างผู้เล่นสองคน
         Player player1 = new Player("Player 1", 1000);  // งบประมาณเริ่มต้น 1000
