@@ -1,4 +1,4 @@
-package src.main.java.project.kombat.model;
+package project.kombat.model;
 
 
 public class GameState {
@@ -124,26 +124,6 @@ public class GameState {
         }
         score += player.getBudget() / 10;  // คะแนนจากงบประมาณที่เหลือ
         return score;
-    }
-
-    // ฟังก์ชันค้นหามินเนียนที่อยู่ในทิศทางที่กำหนด
-    public Minion getTargetMinion(Minion minion, String direction) {
-        int row = minion.getRow();
-        int col = minion.getCol();
-
-        // ใช้ direction เพื่อหามินเนียนฝ่ายตรงข้าม
-        switch (direction) {
-            case "up":
-                return board.getMinionAt(row - 1, col); // ค้นหามินเนียนข้างบน
-            case "down":
-                return board.getMinionAt(row + 1, col); // ค้นหามินเนียนข้างล่าง
-            case "left":
-                return board.getMinionAt(row, col - 1); // ค้นหามินเนียนทางซ้าย
-            case "right":
-                return board.getMinionAt(row, col + 1); // ค้นหามินเนียนทางขวา
-            default:
-                return null; // หากทิศทางไม่ถูกต้อง
-        }
     }
 }
 
