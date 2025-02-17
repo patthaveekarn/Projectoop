@@ -1,3 +1,5 @@
+package project.kombat.strategy.Eval;
+
 import java.util.*;
 import java.util.regex.*;
 
