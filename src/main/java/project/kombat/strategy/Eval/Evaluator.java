@@ -1,6 +1,6 @@
-package src.main.java.project.kombat.strategy;
+package project.kombat.strategy.Eval;
 
-import src.main.java.project.kombat.model.*;
+import project.kombat.model.*;
 
 import java.util.HashMap;
 import java.util.Map;

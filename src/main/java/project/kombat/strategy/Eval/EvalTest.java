@@ -1,5 +1,5 @@
-package src.main.java.project.kombat.strategy;
-import src.main.java.project.kombat.model.*;
+package project.kombat.strategy.Eval;
+import project.kombat.model.*;
 
 
 public class EvalTest {
@@ -12,7 +12,7 @@ public class EvalTest {
         GameState gameState = new GameState(player1, player2, 10, 0.05, 5);
 
         // สร้าง Evaluator สำหรับประมวลผลกลยุทธ์
-        src.main.java.project.kombat.strategy.Evaluator evaluator = new src.main.java.project.kombat.strategy.Evaluator();
+        project.kombat.strategy.Eval.Evaluator evaluator = new project.kombat.strategy.Eval.Evaluator();
 
         // สร้างมินเนียน
         Minion minion = new Minion(100, 30, 10, 0, 0); // มินเนียนเริ่มต้นที่ตำแหน่ง (0, 0)

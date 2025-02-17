@@ -1,4 +1,4 @@
-package src.main.java.project.kombat.model;
+package project.kombat.model;
 
 
 public class GameState {
