@@ -1,4 +1,5 @@
-package project.kombat.strategy.Parse;
+package project.kombat.parser;
+
 import java.util.List;
 
 public interface Parser {

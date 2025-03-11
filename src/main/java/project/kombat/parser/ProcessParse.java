@@ -1,7 +1,7 @@
-package project.kombat.strategy.Parse;
+package project.kombat.parser;
 
-import Expression.ExpressionNode;
-import Tokenizer;
+import project.kombat.evaluator.*;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,10 +26,11 @@ public class ProcessParse implements Parser {
         this.tkz = tkz;
     }
 
+    @Override
     public List<ExecuteNode> parse() {
         List<ExecuteNode> statements = parsePlan();
         if (tkz.hasNextToken()) {
-            throw new NodeException.LeftoverToken(tkz.peek());
+            throw new SyntaxError.LeftoverToken(tkz.peek(), tkz.getNewline());
         }
         return statements;
     }
@@ -142,7 +143,7 @@ public class ProcessParse implements Parser {
     private ExecuteNode parseShootCommand() {
         DirectionNode direction = parseDirection();
         ExpressionNode power = parseExpression();
-        return new AttackCommand(direction, power);
+        return new ShootCommand(direction, power);
     }
 
     // Direction → up | down | upleft | upright | downleft | downright
@@ -202,7 +203,12 @@ public class ProcessParse implements Parser {
     // Power → <number> | <identifier> | ( Expression ) | InfoExpression
     private ExpressionNode parsePower() {
         if (Character.isDigit(tkz.peek().charAt(0))) {
-            return new VariableExpressionNode(Integer.parseInt(tkz.consume()));
+            return new NumberExpressionNode(Integer.parseInt(tkz.consume()));
+        } else if (tkz.peek("(")) {
+            tkz.consume("(");
+            ExpressionNode expression = parseExpression();
+            tkz.consume(")");
+            return expression;
         } else if (reserved.contains(tkz.peek())) {
             return new VariableExpressionNode(tkz.consume());
         } else {
