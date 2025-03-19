@@ -1,0 +1,73 @@
+.gameplay-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #222;
+    color: white;
+    font-family: "Arial", sans-serif;
+  }
+  
+  .player-info {
+    background-color: #333;
+    padding: 10px 20px;
+    border-radius: 10px;
+    text-align: center;
+    margin-bottom: 10px;
+    width: 200px;
+  }
+  
+  .player1 {
+    border: 2px solid #00ccff;
+  }
+  
+  .player2 {
+    border: 2px solid #ff9900;
+  }
+  
+  .game-buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+  }
+  
+  .buy-minion-button,
+  .buy-hex-button,
+  .end-turn-button {
+    background-color: #00cc00;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: 0.3s;
+  }
+  
+  .buy-hex-button {
+    background-color: #ffcc00;
+  }
+  
+  .end-turn-button {
+    background-color: #ff4444;
+  }
+  
+  .buy-minion-button:hover,
+  .buy-hex-button:hover,
+  .end-turn-button:hover {
+    transform: scale(1.1);
+  }
+  
+  .player1-hex {
+    background-color: #00ccff;
+  }
+  
+  .player2-hex {
+    background-color: #ff9900;
+  }
+  
+  .player-info.active {
+    border: 4px solid white;
+  }
+  

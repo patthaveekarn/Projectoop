@@ -1,0 +1,134 @@
+.gameplay-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #222;
+  color: white;
+  padding: 20px;
+}
+
+.gameplay-title {
+  font-size: 40px;
+  font-weight: bold;
+  margin-bottom: 30px;
+  color: white;
+}
+
+.hex-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 53.5px);
+  grid-gap: 1px;
+  margin: -20px 0 0 0;
+}
+
+.hex {
+  width: 70px;
+  height: 60px;
+  background-color: #444;
+  clip-path: polygon(
+    25% 0%, 
+    75% 0%, 
+    100% 50%, 
+    75% 100%, 
+    25% 100%, 
+    0% 50%
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 13px;
+  transition: transform 0.3s, background-color 0.3s;
+  cursor: pointer;
+  position: relative;
+  margin-top: -30px; /* ปรับระยะห่างให้ติดกัน */
+}
+
+.hex:hover {
+  background-color: #962e2e;
+  transform: scale(1.1);
+}
+
+.hex.selected {
+  background-color: #0080ff;
+}
+
+.hex.occupied {
+  background-color: #ff4444;
+  border: 2px solid #ff9999;
+}
+
+.even-col {
+  margin-top:1px; /* ทำให้ Column คู่ต่ำกว่า Column คี่ */
+}
+
+
+.player-info {
+  background-color: #333;
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+  width: 180px;
+  position: absolute;
+}
+
+.player1 {
+  top: 10px;
+  left: 10px;
+  border: 2px solid #00ccff;
+}
+
+.player2 {
+  bottom: 10px;
+  right: 10px;
+  border: 2px solid #ff9900;
+}
+
+/* ✅ ปุ่ม Buy Minion / Buy Hex */
+.buy-minion-button,
+.buy-hex-button {
+  background-color: #00cc00;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: 0.3s;
+  display: block;
+  margin: 5px auto;
+}
+
+.buy-hex-button {
+  background-color: #ffcc00;
+}
+
+.buy-minion-button:hover,
+.buy-hex-button:hover {
+  transform: scale(1.1);
+}
+
+/* ✅ ปุ่ม End Turn (อยู่ล่างตรงกลาง) */
+.game-buttons {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.end-turn-button {
+  background-color: #ff4444;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+.end-turn-button:hover {
+  background-color: #ff2222;
+}

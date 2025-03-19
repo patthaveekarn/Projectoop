@@ -1,0 +1,98 @@
+.customize-minion-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #222;
+  color: white;
+  font-family: "Arial", sans-serif;
+  position: relative;
+}
+
+.customize-title {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.minion-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.minion-card {
+  background: #333;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  width: 250px;
+  border: 2px solid #444;
+  transition: 0.3s;
+}
+
+.minion-image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.minion-name {
+  font-size: 20px;
+  margin: 10px 0;
+}
+
+.minion-card label {
+  display: block;
+  font-size: 16px;
+  margin: 10px 0;
+}
+
+.minion-card input,
+.minion-card textarea {
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid white;
+  background: #222;
+  color: white;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between; /* ✅ ให้ Back อยู่ซ้าย และ Next อยู่ขวา */
+  align-items: center;
+  width: 100%;
+  position: fixed; /* ✅ ทำให้ปุ่มอยู่ล่างตลอด */
+  bottom: 20px; /* ✅ ปรับให้ปุ่มอยู่ล่าง */
+  left: 0;
+  padding: 0 40px; /* ✅ ให้มีระยะห่างจากขอบ */
+}
+
+/* ✅ ปรับขนาดปุ่มให้คงที่ */
+button {
+  font-size: 18px;
+  padding: 12px 24px;
+  border: 2px solid white;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
+  border-radius: 8px; /* ✅ ปรับให้โค้งสวยขึ้น */
+}
+
+/* ✅ ปุ่ม Hover */
+button:hover {
+  background-color: gray;
+  transform: scale(1.05);
+}
+
+/* ✅ ปุ่มที่กดไม่ได้ */
+button:disabled {
+  background-color: #555;
+  cursor: not-allowed;
+}

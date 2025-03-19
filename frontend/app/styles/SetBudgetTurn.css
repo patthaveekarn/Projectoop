@@ -1,0 +1,98 @@
+.set-budget-turn-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #222;
+    color: white;
+    font-family: "Arial", sans-serif;
+  }
+  
+  .set-budget-turn-title {
+    font-size: 40px;
+    font-weight: bold;
+    margin-bottom: 30px;
+  }
+  
+  .budget-turn-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 300px;
+  }
+  
+  .budget-turn-inputs label {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    color: white;
+    font-size: 18px;
+  }
+  
+  .budget-turn-inputs input {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-top: 5px;
+    text-align: center;
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    width: 300px;
+  }
+  
+  .next-button {
+    position: fixed;
+    bottom: 20px;
+    background-color: #00be49;
+    color: rgb(255, 255, 255);
+    border: none;
+    padding: 15px 30px;
+    font-size: 20px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: 0.3s;
+    z-index: 100;
+  }
+  .back-button {
+    position: fixed;
+    bottom: 20px;
+    background-color: #ff0000;
+    color: rgb(255, 255, 255);
+    border: none;
+    padding: 15px 30px;
+    font-size: 20px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: 0.3s;
+    z-index: 100;
+  }
+  
+  .next-button {
+    right: 20px;
+  }
+  
+  .back-button {
+    left: 20px;
+  }
+  
+  .next-button:hover,
+  .back-button:hover {
+    background-color: #0a9500;
+  }
+  
+  .next-button:hover:not(:disabled),
+  .back-button:hover {
+    background-color: #000000;
+  }
+  
+  .error-message {
+    color: rgb(255, 0, 0);
+    font-size: 18px;
+    margin-top: 5px;
+  }
+  
