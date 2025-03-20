@@ -1,0 +1,123 @@
+.choose-minion-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #222;
+  color: white;
+  font-family: "Arial", sans-serif;
+}
+
+.choose-title {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.minion-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;  /* ✅ เปลี่ยนเป็น wrap เพื่อให้จัดเป็นแถวใหม่ */
+  overflow: hidden; /* ✅ ซ่อน Scrollbar ที่ทำให้กดไม่ได้ */
+}
+
+.minion-card {
+  width: 200px;
+  background: #333;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  transition: 0.3s;
+  cursor: pointer; /* ✅ เพิ่ม Cursor เพื่อให้รู้ว่ากดได้ */
+}
+
+.minion-card.selected {
+  border: 2px solid #00cc00;
+}
+
+
+
+.minion-card.selected {
+  border-color: #00cc00;
+}
+
+.minion-card:hover {
+  transform: scale(1.05);
+}
+
+.minion-image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.minion-name {
+  font-size: 18px;
+  margin-top: 10px;
+}
+
+.ready-button {
+  background-color: #00cc00;
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  font-size: 20px;
+  margin-top: 20px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+.ready-button:disabled {
+  background-color: #555;
+  cursor: not-allowed;
+}
+
+.next-button {
+  position: fixed;
+  bottom: 20px;
+  background-color: #00be49;
+  color: rgb(255, 255, 255);
+  border: none;
+  padding: 15px 30px;
+  font-size: 20px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: 0.3s;
+  z-index: 100;
+}
+.back-button {
+  position: fixed;
+  bottom: 20px;
+  background-color: #ff0000;
+  color: rgb(255, 255, 255);
+  border: none;
+  padding: 15px 30px;
+  font-size: 20px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: 0.3s;
+  z-index: 100;
+}
+
+.next-button {
+  right: 20px;
+}
+
+.back-button {
+  left: 20px;
+}
+
+.next-button:hover,
+.back-button:hover {
+  background-color: #0a9500;
+}
+
+.next-button:hover:not(:disabled),
+.back-button:hover {
+  background-color: #000000;
+}
