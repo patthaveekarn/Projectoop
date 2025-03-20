@@ -13,31 +13,34 @@ const SetBudgetTurn: React.FC = () => {
   const selectedMinions = useSelector((state: RootState) => state.minion.selectedMinions);
   const config = useSelector((state: RootState) => state.config);
 
-  // ✅ ใช้ State สำหรับ Budget และ Turn (โหลดค่าจาก Redux ถ้ามี)
+  // ใช้ State สำหรับ Budget และ Turn (โหลดค่าจาก Redux ถ้ามี)
   const [budget, setBudget] = useState(config.budget || "");
   const [turn, setTurn] = useState(config.turn || "");
 
-  // ✅ ถ้าไม่มี Minion เลือกไว้ ให้กลับไปหน้า ChooseMinion
+  // ถ้าไม่มี Minion เลือกไว้ ให้กลับไปหน้า ChooseMinion
   useEffect(() => {
     if (selectedMinions.length < 3) {
       router.push("/ChooseMinion");
     }
   }, [selectedMinions, router]);
 
-  // ✅ ตรวจสอบว่า Budget และ Turn กรอกถูกต้องหรือไม่
+  // ตรวจสอบว่า Budget และ Turn กรอกถูกต้องหรือไม่
   const isValid = () => {
     return Number(budget) >= 1 && Number(turn) >= 1;
   };
+
+  // ตรวจสอบการอัปเดต Redux เมื่อมีการส่งข้อมูล
+  useEffect(() => {
+    console.log("📌 Updated Redux Config:", config); // ตรวจสอบค่า config หลังจากการอัปเดต
+  }, [config]);
 
   const handleNext = () => {
     if (isValid()) {
       dispatch(setConfig({ budget: Number(budget), turn: Number(turn) }));
       console.log("✅ Dispatch setConfig:", { budget: Number(budget), turn: Number(turn) });
-      console.log("📌 Updated Redux Config:", config); // ✅ ตรวจสอบ Redux State ก่อนเปลี่ยนหน้า
 
-      setTimeout(() => {
-        router.push("/Gameplay");
-      }, 500); // ✅ เพิ่ม Delay ป้องกัน Redux ยังไม่อัปเดต
+      // หลังจากส่งค่าไปยัง Redux แล้ว, รอการอัปเดตก่อนเปลี่ยนหน้า
+      router.push("/Gameplay");
     } else {
       alert("กรุณากรอกค่า Budget และ Turn ให้มากกว่า 0");
     }

@@ -1,11 +1,14 @@
+// GamePlay.tsx (Frontend - React)
+
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../stores/store";
+import { socket } from "../libs/socket"; // นำเข้า socket.io-client
+
 import { initializeGrid, selectHex, buyHex } from "../stores/slices/hexMapSlice";
 import { switchTurn, buyMinion } from "../stores/slices/gameSlice";
-import { socket } from "../libs/socket"; // นำเข้า socket ที่ใช้เชื่อมต่อ
 import "../styles/HexGrid.css";
 
 const GamePlay: React.FC = () => {
@@ -15,6 +18,8 @@ const GamePlay: React.FC = () => {
   const players = useSelector((state: RootState) => state.game.players);
   const gold = useSelector((state: RootState) => state.game.gold);
   const selectedMinions = useSelector((state: RootState) => state.minion.selectedMinions);
+
+  const [playerAction, setPlayerAction] = useState("");
 
   // เชื่อมต่อกับ WebSocket เมื่อ component ถูก mount
   useEffect(() => {
@@ -29,34 +34,47 @@ const GamePlay: React.FC = () => {
       dispatch(buyHex(data)); // อัปเดตข้อมูล hex ที่ถูกซื้อ
     });
 
+    socket.on("minion_updated", (data) => {
+      console.log("Minion updated:", data);
+    });
+
     return () => {
       // ลบ event listeners เมื่อ component ถูก unmount
       socket.off("update_game_state");
       socket.off("hex_updated");
+      socket.off("minion_updated");
     };
   }, [dispatch]);
 
+  // ฟังก์ชันเมื่อผู้เล่นคลิกที่ hex
   const handleHexClick = (row: number, col: number) => {
     if (currentTurn === socket.id) {
       dispatch(selectHex({ row, col }));
     }
   };
 
+  // ฟังก์ชันซื้อ hex
   const handleBuyHex = (row: number, col: number) => {
     if (gold[currentTurn] >= 5) {
       const hexData = { row, col, owner: currentTurn };
       dispatch(buyHex(hexData));
       socket.emit("buy_hex", hexData); // ส่งข้อมูลการซื้อ hex ไปยัง backend
+    } else {
+      alert("คุณไม่มีพอเพียง Gold เพื่อซื้อ Hex นี้");
     }
   };
 
+  // ฟังก์ชันซื้อ minion
   const handleBuyMinion = () => {
     if (gold[currentTurn] >= 3) {
       dispatch(buyMinion({ player: currentTurn }));
       socket.emit("buy_minion", { player: currentTurn }); // ส่งข้อมูลการซื้อมินเนี่ยนไปยัง backend
+    } else {
+      alert("คุณไม่มีพอเพียง Gold เพื่อซื้อ Minion");
     }
   };
 
+  // ฟังก์ชันจบเทิร์น
   const handleEndTurn = () => {
     const nextPlayer = currentTurn === players[0] ? players[1] : players[0];
     dispatch(switchTurn(nextPlayer));
@@ -65,7 +83,7 @@ const GamePlay: React.FC = () => {
 
   return (
       <div className="gameplay-container">
-        {/* แสดงข้อมูลของผู้เล่น 1 */}
+        {/* ข้อมูลของผู้เล่น 1 */}
         <div className={`player-info player1 ${currentTurn === players[0] ? "active" : ""}`}>
           <h2>Player 1</h2>
           <p>Gold: {gold[players[0]]}</p>
@@ -100,7 +118,7 @@ const GamePlay: React.FC = () => {
           )}
         </div>
 
-        {/* แสดงข้อมูลของผู้เล่น 2 */}
+        {/* ข้อมูลของผู้เล่น 2 */}
         <div className={`player-info player2 ${currentTurn === players[1] ? "active" : ""}`}>
           <h2>Player 2</h2>
           <p>Gold: {gold[players[1]]}</p>
