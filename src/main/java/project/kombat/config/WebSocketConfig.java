@@ -1,47 +1,26 @@
 package project.kombat.config;
 
+
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.socket.WebSocketHandler;
-import org.springframework.web.socket.config.annotation.EnableWebSocket;
-import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
-import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
-import org.springframework.web.socket.handler.TextWebSocketHandler;
-import org.springframework.web.socket.WebSocketSession;
-import org.springframework.web.socket.TextMessage;
+import org.springframework.messaging.simp.config.MessageBrokerRegistry;
+import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
+import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
+import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-@EnableWebSocket
 @Configuration
-public class WebSocketConfig implements WebSocketConfigurer {
+@EnableWebSocketMessageBroker
+public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
-    public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        // Register the WebSocket handler to handle messages for "/ws" endpoint
-        registry.addHandler(webSocketHandler(), "/ws").setAllowedOrigins("*");
+    public void configureMessageBroker(MessageBrokerRegistry config) {
+        config.enableSimpleBroker("/topic");  // Enable a broker for topics
+        config.setApplicationDestinationPrefixes("/app");  // Messages that start with "/app" are routed to @MessageMapping
     }
 
-    // WebSocket handler to handle incoming and outgoing messages
-    public WebSocketHandler webSocketHandler() {
-        return new TextWebSocketHandler() {
-
-            // Handle incoming message (custom minion data from frontend)
-            @Override
-            public void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-                // ขาเข้า - รับข้อความจาก client (เช่น ข้อมูลมินเนี่ยนที่เลือกจากหน้า CustomizeMinion)
-                String incomingMessage = message.getPayload();
-                System.out.println("Received message: " + incomingMessage);
-
-                // สมมุติว่าเรามีข้อมูลมินเนี่ยนที่ส่งมาจาก client
-                ObjectMapper objectMapper = new ObjectMapper();
-                MinionData minionData = objectMapper.readValue(incomingMessage, MinionData.class);
-
-                // ประมวลผลข้อมูลมินเนี่ยน หรือบันทึกในฐานข้อมูล (หากจำเป็น)
-
-                // ขาออก - ส่งข้อความตอบกลับไปยัง client (อาจเป็นผลลัพธ์หรือสถานะ)
-                String responseMessage = "Minion data received and processed!";
-                session.sendMessage(new TextMessage(responseMessage));
-            }
-        };
+    @Override
+    public void registerStompEndpoints(StompEndpointRegistry registry) {
+        registry.addEndpoint("/ws")  // Register the "/ws" endpoint for WebSocket connections
+                .setAllowedOrigins("http://localhost:3000")  // Allow connections from your Next.js frontend
+                .withSockJS();  // Fallback options for browsers that don't support WebSocket
     }
 }

@@ -1,3 +1,4 @@
+// frontend/app/ChooseMinion/page.tsx
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -25,7 +26,7 @@ const ChooseMinion: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [playerSelections, setPlayerSelections] = useState<Record<string, number[]>>({});
 
-  // ✅ ป้องกันการเด้งออกจากโหมดอื่น (รองรับ SINGLE และ AUTO)
+  // Check valid game mode
   useEffect(() => {
     console.log("🔍 Checking gameMode:", gameMode);
     if (gameMode === undefined) return;
@@ -38,9 +39,8 @@ const ChooseMinion: React.FC = () => {
   }, [gameMode, router]);
 
   useEffect(() => {
-    console.log("Ready Players:", readyPlayers);  // ดูค่าของ readyPlayers ใน console
+    console.log("Ready Players:", readyPlayers);
   }, [readyPlayers]);
-
 
   useEffect(() => {
     if (loading) return;
@@ -48,7 +48,7 @@ const ChooseMinion: React.FC = () => {
     dispatch(resetMinions());
     sessionStorage.removeItem("selectedMinions");
 
-    // ✅ ใช้ WebSocket แค่ในโหมด DUEL
+    // Only use WebSocket in DUEL mode
     if (gameMode === "DUEL") {
       socket.emit("join_room", gameMode);
 
@@ -88,7 +88,7 @@ const ChooseMinion: React.FC = () => {
   };
 
   const handleReady = () => {
-    console.log("Selected Minions:", selectedMinions); // เพิ่มการ log เพื่อตรวจสอบข้อมูล
+    console.log("Selected Minions:", selectedMinions);
     if (selectedMinions.length === 3) {
       console.log("Ready to proceed with selection.");
       if (gameMode === "DUEL") {
@@ -100,7 +100,6 @@ const ChooseMinion: React.FC = () => {
       alert("คุณต้องเลือกมินเนี่ยนครบ 3 ตัวก่อนกด Ready!");
     }
   };
-
 
   if (loading) return <p>⏳ กำลังโหลดข้อมูล...</p>;
 
@@ -131,8 +130,7 @@ const ChooseMinion: React.FC = () => {
           {gameMode === "DUEL" && readyPlayers?.includes(socket.id) ? "✅ Ready" : "Ready"}
         </button>
 
-
-        {/* ✅ ปุ่ม Next ใช้ได้เฉพาะใน SINGLE และ AUTO */}
+        {/* Next button only available in SINGLE and AUTO modes */}
         {gameMode !== "DUEL" && (
             <button className="next-button" onClick={() => router.push("/CustomizeMinion")}>
               Next

@@ -1,3 +1,4 @@
+// frontend/app/WaitingRoom/page.tsx
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -17,19 +18,23 @@ const WaitingRoom: React.FC = () => {
     useEffect(() => {
         if (!gameMode || gameMode !== "DUEL") {
             router.push("/ChooseMode");
+            return;
         }
 
+        // Handle connection
         socket.on("connect", () => {
             console.log("🟢 Connected to server");
             setConnected(true);
-            socket.emit("join_room", gameMode); // ✅ ส่ง event ว่าเข้าห้อง
+            socket.emit("join_room", gameMode);
         });
 
+        // Handle player updates
         socket.on("update_players", (playerList) => {
             console.log("👥 Players Updated:", playerList);
             dispatch(setPlayers(playerList));
         });
 
+        // Handle disconnection
         socket.on("disconnect", () => {
             console.log("🔴 Disconnected from server");
             setConnected(false);
@@ -43,22 +48,22 @@ const WaitingRoom: React.FC = () => {
     }, [dispatch, router, gameMode]);
 
     useEffect(() => {
+        // Handle game start
         socket.on("game_started", () => {
             console.log("🎮 Game Started! Redirecting...");
-            router.push("/ChooseMinion"); // ✅ ไปหน้าเลือกมินเนี่ยน
+            router.push("/ChooseMinion");
         });
 
         return () => {
             socket.off("game_started");
         };
-    }, []);
-
+    }, [router]);
 
     const handleStartGame = () => {
         if (players.length === 2) {
             console.log("✅ Game Start! Redirecting...");
-            socket.emit("start_game"); // ✅ ส่ง event ให้ backend ว่าเริ่มเกมแล้ว
-            router.push("/ChooseMinion"); // ✅ ไปหน้าเลือกมินเนี่ยน
+            socket.emit("start_game");
+            router.push("/ChooseMinion");
         } else {
             alert("รอผู้เล่นอีกคน...");
         }

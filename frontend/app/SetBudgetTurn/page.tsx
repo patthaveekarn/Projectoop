@@ -1,54 +1,44 @@
+// src/components/SetBudgetTurn.tsx
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setConfig } from "../stores/slices/configSlice";
 import { RootState } from "../stores/store";
 import "../styles/SetBudgetTurn.css";
+import {useRouter} from "next/navigation";
 
 const SetBudgetTurn: React.FC = () => {
-  const router = useRouter();
   const dispatch = useDispatch();
   const selectedMinions = useSelector((state: RootState) => state.minion.selectedMinions);
-  const config = useSelector((state: RootState) => state.config);
-
-  // ใช้ State สำหรับ Budget และ Turn (โหลดค่าจาก Redux ถ้ามี)
-  const [budget, setBudget] = useState(config.budget || "");
-  const [turn, setTurn] = useState(config.turn || "");
-
-  // ถ้าไม่มี Minion เลือกไว้ ให้กลับไปหน้า ChooseMinion
-  useEffect(() => {
-    if (selectedMinions.length < 3) {
-      router.push("/ChooseMinion");
-    }
-  }, [selectedMinions, router]);
-
-  // ตรวจสอบว่า Budget และ Turn กรอกถูกต้องหรือไม่
-  const isValid = () => {
-    return Number(budget) >= 1 && Number(turn) >= 1;
-  };
-
-  // ตรวจสอบการอัปเดต Redux เมื่อมีการส่งข้อมูล
-  useEffect(() => {
-    console.log("📌 Updated Redux Config:", config); // ตรวจสอบค่า config หลังจากการอัปเดต
-  }, [config]);
+  const [budget, setBudget] = useState(10);  // ค่าเริ่มต้น
+  const [turns, setTurns] = useState(10);  // ค่าเริ่มต้น
+    const router = useRouter();
 
   const handleNext = () => {
-    if (isValid()) {
-      dispatch(setConfig({ budget: Number(budget), turn: Number(turn) }));
-      console.log("✅ Dispatch setConfig:", { budget: Number(budget), turn: Number(turn) });
+    // บันทึกข้อมูล Budget และ Turn ลง Redux
+    dispatch(setConfig({turn: 0, budget }));
 
-      // หลังจากส่งค่าไปยัง Redux แล้ว, รอการอัปเดตก่อนเปลี่ยนหน้า
-      router.push("/Gameplay");
-    } else {
-      alert("กรุณากรอกค่า Budget และ Turn ให้มากกว่า 0");
-    }
+    // ไปยังหน้า GamePlay
+    console.log("Final Config:", { budget, turns });
+    router.push("/Gameplay");
   };
 
   return (
       <div className="set-budget-turn-container">
-        <h1 className="set-budget-turn-title">Set Budget and Turn</h1>
+        <h1>Set Your Budget and Turns</h1>
+
+        <h3>Minions:</h3>
+        <div className="minion-list">
+          {selectedMinions.map((minion) => (
+              <div key={minion.id} className="minion-card">
+                <img src={minion.image} alt={minion.name} className="minion-image" />
+                <h3>{minion.name}</h3>
+                <p>Defense: {minion.defense}</p>
+                <p>Strategy: {minion.strategy}</p>
+              </div>
+          ))}
+        </div>
 
         <div className="budget-turn-inputs">
           <label>
@@ -56,34 +46,25 @@ const SetBudgetTurn: React.FC = () => {
             <input
                 type="number"
                 value={budget}
-                onChange={(e) => setBudget(e.target.value)}
-                placeholder="Enter Budget (1+)"
+                onChange={(e) => setBudget(Number(e.target.value))}
                 min="1"
+                required
             />
-            {Number(budget) < 1 && <span className="error-message">Budget ต้องมากกว่า 0</span>}
           </label>
 
           <label>
-            Turn:
+            Turns:
             <input
                 type="number"
-                value={turn}
-                onChange={(e) => setTurn(e.target.value)}
-                placeholder="Enter Turn (1+)"
+                value={turns}
+                onChange={(e) => setTurns(Number(e.target.value))}
                 min="1"
+                required
             />
-            {Number(turn) < 1 && <span className="error-message">Turn ต้องมากกว่า 0</span>}
           </label>
         </div>
 
-        <div className="button-container">
-          <button className="back-button" onClick={() => router.push("/CustomizeMinion")}>
-            Back
-          </button>
-          <button className="next-button" onClick={handleNext} disabled={!isValid()}>
-            Next
-          </button>
-        </div>
+        <button onClick={handleNext}>Next</button>
       </div>
   );
 };
