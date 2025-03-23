@@ -7,8 +7,8 @@ interface GameState {
 }
 
 const initialState: GameState = {
-  currentTurn: "",
-  players: [],
+  currentTurn: "0",
+  players: ["0","1"],
   gold: {},
 };
 
@@ -22,7 +22,7 @@ const gameSlice = createSlice({
       state.gold[action.payload[0]] = 10;
       state.gold[action.payload[1]] = 10;
     },
-    switchTurn: (state) => {
+    switchTurn: (state,action: PayloadAction<string>) => {
       const nextPlayer = state.players.find(p => p !== state.currentTurn);
       if (nextPlayer) state.currentTurn = nextPlayer;
     },

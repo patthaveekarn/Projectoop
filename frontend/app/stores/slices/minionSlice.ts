@@ -1,3 +1,4 @@
+// src/stores/slices/minionSlice.ts
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface Minion {
@@ -6,13 +7,13 @@ export interface Minion {
   image: string;
   defense: number;
   strategy: string;
-  owner: string;  
+  owner: string;
 }
 
 interface MinionState {
   selectedMinions: Minion[];
-  opponentMinions: Minion[]; // ✅ เพิ่มเก็บมินเนี่ยนของอีกฝั่ง
-  readyPlayers: string[]; // ✅ เก็บว่าใครกด Ready แล้วบ้าง
+  opponentMinions: Minion[]; // เก็บมินเนี่ยนของอีกฝั่ง
+  readyPlayers: string[]; // เก็บว่าใครกด Ready แล้วบ้าง
 }
 
 const initialState: MinionState = {
@@ -37,7 +38,7 @@ const minionSlice = createSlice({
       const { id, key, value } = action.payload;
       const minion = state.selectedMinions.find((m) => m.id === id);
       if (minion) {
-        (minion as any)[key] = value; // ✅ แก้ไขค่าใน Redux State
+        (minion as any)[key] = value; // แก้ไขค่าใน Redux State
       }
     },
     resetMinions: (state) => {
@@ -54,6 +55,13 @@ const minionSlice = createSlice({
   },
 });
 
-export const { addMinion, removeMinion, updateMinion, resetMinions, setOpponentMinions, setReadyPlayers } =
-  minionSlice.actions;
+export const {
+  addMinion,
+  removeMinion,
+  updateMinion,
+  resetMinions,
+  setOpponentMinions,
+  setReadyPlayers
+} = minionSlice.actions;
+
 export default minionSlice.reducer;

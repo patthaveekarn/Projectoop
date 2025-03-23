@@ -1,11 +1,10 @@
-// GamePlay.tsx (Frontend - React)
-
+// frontend/app/Gameplay/page.tsx
 "use client";
 
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../stores/store";
-import { socket } from "../libs/socket"; // นำเข้า socket.io-client
+import { socket } from "../libs/socket";
 
 import { initializeGrid, selectHex, buyHex } from "../stores/slices/hexMapSlice";
 import { switchTurn, buyMinion } from "../stores/slices/gameSlice";
@@ -21,17 +20,17 @@ const GamePlay: React.FC = () => {
 
   const [playerAction, setPlayerAction] = useState("");
 
-  // เชื่อมต่อกับ WebSocket เมื่อ component ถูก mount
+  // Connect to WebSocket when component mounts
   useEffect(() => {
     dispatch(initializeGrid());
 
-    // ฟังเหตุการณ์จาก backend
+    // Listen for events from backend
     socket.on("update_game_state", (data) => {
-      dispatch(switchTurn(data.currentTurn)); // อัปเดตเทิร์นของเกม
+      dispatch(switchTurn(data.currentTurn));
     });
 
-    socket.on("hex_updated", (data) => {
-      dispatch(buyHex(data)); // อัปเดตข้อมูล hex ที่ถูกซื้อ
+    socket.on("update_hex", (data) => {
+      dispatch(buyHex(data));
     });
 
     socket.on("minion_updated", (data) => {
@@ -39,51 +38,51 @@ const GamePlay: React.FC = () => {
     });
 
     return () => {
-      // ลบ event listeners เมื่อ component ถูก unmount
+      // Remove event listeners when component unmounts
       socket.off("update_game_state");
-      socket.off("hex_updated");
+      socket.off("update_hex");
       socket.off("minion_updated");
     };
   }, [dispatch]);
 
-  // ฟังก์ชันเมื่อผู้เล่นคลิกที่ hex
+  // Function to handle hex clicks
   const handleHexClick = (row: number, col: number) => {
     if (currentTurn === socket.id) {
       dispatch(selectHex({ row, col }));
     }
   };
 
-  // ฟังก์ชันซื้อ hex
+  // Function to buy hex
   const handleBuyHex = (row: number, col: number) => {
     if (gold[currentTurn] >= 5) {
       const hexData = { row, col, owner: currentTurn };
       dispatch(buyHex(hexData));
-      socket.emit("buy_hex", hexData); // ส่งข้อมูลการซื้อ hex ไปยัง backend
+      socket.emit("buy_hex", hexData);
     } else {
-      alert("คุณไม่มีพอเพียง Gold เพื่อซื้อ Hex นี้");
+      alert("คุณไม่มี Gold เพียงพอเพื่อซื้อ Hex");
     }
   };
 
-  // ฟังก์ชันซื้อ minion
+  // Function to buy minion
   const handleBuyMinion = () => {
     if (gold[currentTurn] >= 3) {
       dispatch(buyMinion({ player: currentTurn }));
-      socket.emit("buy_minion", { player: currentTurn }); // ส่งข้อมูลการซื้อมินเนี่ยนไปยัง backend
+      socket.emit("buy_minion", { player: currentTurn });
     } else {
-      alert("คุณไม่มีพอเพียง Gold เพื่อซื้อ Minion");
+      alert("คุณไม่มี Gold เพียงพอเพื่อซื้อ Minion");
     }
   };
 
-  // ฟังก์ชันจบเทิร์น
+  // Function to end turn
   const handleEndTurn = () => {
     const nextPlayer = currentTurn === players[0] ? players[1] : players[0];
     dispatch(switchTurn(nextPlayer));
-    socket.emit("end_turn", { nextTurn: nextPlayer }); // ส่งข้อมูลการสิ้นสุดเทิร์นไปยัง backend
+    socket.emit("end_turn", { nextTurn: nextPlayer });
   };
 
   return (
       <div className="gameplay-container">
-        {/* ข้อมูลของผู้เล่น 1 */}
+        {/* Player 1 info */}
         <div className={`player-info player1 ${currentTurn === players[0] ? "active" : ""}`}>
           <h2>Player 1</h2>
           <p>Gold: {gold[players[0]]}</p>
@@ -103,7 +102,7 @@ const GamePlay: React.FC = () => {
           </ul>
         </div>
 
-        {/* แสดงแผนที่ Hex */}
+        {/* Hex Grid */}
         <div className="hex-grid">
           {grid.map((row, rowIndex) =>
               row.map((hex, colIndex) => (
@@ -118,7 +117,7 @@ const GamePlay: React.FC = () => {
           )}
         </div>
 
-        {/* ข้อมูลของผู้เล่น 2 */}
+        {/* Player 2 info */}
         <div className={`player-info player2 ${currentTurn === players[1] ? "active" : ""}`}>
           <h2>Player 2</h2>
           <p>Gold: {gold[players[1]]}</p>
@@ -138,7 +137,7 @@ const GamePlay: React.FC = () => {
           </ul>
         </div>
 
-        {/* ปุ่มสำหรับจบเทิร์น */}
+        {/* End turn button */}
         <div className="game-buttons">
           <button className="end-turn-button" onClick={handleEndTurn} disabled={socket.id !== currentTurn}>
             End Turn
