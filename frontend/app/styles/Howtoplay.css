@@ -1,0 +1,78 @@
+.howtoplay-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    font-family: "Arial", sans-serif;
+    background-image: url('/images/background/backgroundhowtoplay.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.howtoplay-modal {
+    background-color: white;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.howtoplay-content {
+    padding: 20px;
+}
+
+.howtoplay-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.howtoplay-section {
+    margin-bottom: 15px;
+}
+
+.howtoplay-subtitle {
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #555;
+}
+
+.howtoplay-section ul {
+    list-style-type: disc;
+    padding-left: 20px;
+    color: #666;
+}
+
+.howtoplay-section li {
+    margin-bottom: 5px;
+}
+
+.howtoplay-button-container {
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+    display: flex;
+    justify-content: center;
+}
+
+.back-button {
+    background-color: #ef1d1d;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+    background-color: #ef1d1d;
+}

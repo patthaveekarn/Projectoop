@@ -15,7 +15,7 @@ const Home: React.FC = () => {
                 Play
             </button>
 
-            <button className="how-to-play-button" onClick={() => router.push("/HowToPlay")}>
+            <button className="how-to-play-button" onClick={() => router.push("/Howtoplay")}>
                 How to Play
             </button>
         </div>

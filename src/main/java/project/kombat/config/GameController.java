@@ -1,7 +1,6 @@
 package project.kombat.config;
 
 import project.kombat.config.model.*;
-import project.kombat.config.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -40,7 +39,7 @@ public class GameController {
 
     // Handle player ready status
     @MessageMapping("/confirm_selection/{gameMode}")
-    public void confirmSelection(@DestinationVariable String gameMode, PlayerReadyRequest request) {
+    public void confirmSelection(@DestinationVariable String gameMode, Player request) {
         List<String> readyPlayers = gameService.markPlayerReady(gameMode, request.getPlayerId());
 
         // Send the updated ready players list to all clients in the room

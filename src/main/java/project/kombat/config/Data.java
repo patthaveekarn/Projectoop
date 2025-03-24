@@ -1,7 +1,6 @@
 package project.kombat.config;
 
 import lombok.Data;
-import java.util.List;
 
 @Data
 class PlayerJoinRequest {
@@ -16,7 +15,7 @@ class MinionSelectionRequest {
 }
 
 @Data
-class PlayerReadyRequest {
+class Player {
     private String playerId;
 }
 
