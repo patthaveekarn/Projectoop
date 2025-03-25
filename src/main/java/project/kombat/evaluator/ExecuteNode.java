@@ -1,4 +1,4 @@
-package project.kombat.parser;
+package project.kombat.evaluator;
 
 public interface ExecuteNode {
     void execute();

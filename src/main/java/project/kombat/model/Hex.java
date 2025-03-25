@@ -1,30 +1,47 @@
 package project.kombat.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
+// คลาสนี้แทนช่องหกเหลี่ยมแต่ละช่องบนกระดาน เก็บพิกัดและสถานะว่ามีมินเนี่ยนอยู่มั้ย
 public class Hex {
-    private Minion minion;  // เก็บมินเนียนที่อยู่ในช่องนี้ (อาจจะไม่มีมินเนียนก็ได้)
+    // พิกัดแถวบนกระดาน (0-7)
+    @Setter
+    @Getter
+    private int row;
+    
+    // พิกัดคอลัมน์บนกระดาน (0-7)
+    @Setter
+    @Getter
+    private int col;
+    
+    // เก็บว่าช่องนี้มีมินเนี่ยนอยู่รึเปล่า
+    private boolean isOccupied;
 
-    // คอนสตรัคเตอร์
-    public Hex() {
-        this.minion = null;  // เริ่มต้นด้วยการไม่มีมินเนียน
+    // สร้างช่องใหม่ด้วยพิกัด เริ่มต้นจะว่างเสมอ
+    public Hex(int row, int col) {
+        this.row = row;
+        this.col = col;
+        this.isOccupied = false;  // ตอนสร้างใหม่ยังไม่มีมินเนี่ยน
     }
 
-    // ฟังก์ชันในการตั้งค่ามินเนียนในช่อง
-    public void placeMinion(Minion minion) {
-        this.minion = minion;
-    }
-
-    // ฟังก์ชันในการลบมินเนียนจากช่อง
-    public void removeMinion() {
-        this.minion = null;
-    }
-
-    // ฟังก์ชันเพื่อดึงมินเนียนในช่องนี้
-    public Minion getMinion() {
-        return minion;
-    }
-
-    // ฟังก์ชันตรวจสอบว่าช่องนี้มีมินเนียนหรือไม่
+    // เช็คว่าช่องนี้มีมินเนี่ยนอยู่มั้ย
     public boolean isOccupied() {
-        return minion != null;
+        return isOccupied;
+    }
+
+    // บอกว่าช่องนี้มีมินเนี่ยนหรือว่าง
+    public void setOccupied(boolean isOccupied) {
+        this.isOccupied = isOccupied;
+    }
+
+    // แปลงเป็นข้อความสำหรับดีบั๊ก
+    @Override
+    public String toString() {
+        return "Hex{" +
+                "row=" + row +
+                ", col=" + col +
+                ", isOccupied=" + isOccupied +
+                '}';
     }
 }

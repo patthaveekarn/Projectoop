@@ -1,10 +1,11 @@
 package project.kombat.evaluator;
 
-import project.kombat.parser.ExecuteNode;
+import lombok.Getter;
 
 import java.util.List;
 
 public class BlockStatementNode implements ExecuteNode {
+    @Getter
     private final List<ExecuteNode> statements;
 
     public BlockStatementNode(List<ExecuteNode> statements) {

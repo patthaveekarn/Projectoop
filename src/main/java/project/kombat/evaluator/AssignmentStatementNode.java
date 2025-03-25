@@ -1,10 +1,13 @@
 package project.kombat.evaluator;
 
-import project.kombat.parser.ExecuteNode;
+import lombok.Getter;
+import project.kombat_3.model.GameState;
 
 public class AssignmentStatementNode implements ExecuteNode {
-    private final String identifier;
-    private final ExpressionNode expression;
+    // เพิ่มเมธอด getIdentifier() เพื่อให้สามารถเข้าถึงชื่อของตัวแปร
+    @Getter
+    private final String identifier;  // ตัวแปรที่ถูกกำหนดค่า
+    private final ExpressionNode expression;  // นิพจน์ที่ใช้กำหนดค่า
 
     public AssignmentStatementNode(String identifier, ExpressionNode expression) {
         this.identifier = identifier;
@@ -13,7 +16,10 @@ public class AssignmentStatementNode implements ExecuteNode {
 
     @Override
     public void execute() {
-        // Logic สำหรับการกำหนดค่า
-        System.out.println("Assigning " + expression.evaluate() + " to " + identifier);
+        // Execute the assignment (e.g. assign value to the variable in GameState)
+        long value = expression.evaluate();  // Evaluate the expression
+        GameState.getInstance().setVariable(identifier, value);  // Set the variable in GameState
+        System.out.println("AssignedStatement " + identifier + " = " + value);
     }
 }
+

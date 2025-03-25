@@ -1,7 +1,8 @@
 package project.kombat.evaluator;
 
-import project.kombat.parser.ExecuteNode;
+import lombok.Getter;
 
+@Getter
 public class WhileStatementNode implements ExecuteNode {
     private final ExpressionNode condition;
     private final ExecuteNode body;
@@ -13,7 +14,7 @@ public class WhileStatementNode implements ExecuteNode {
 
     @Override
     public void execute() {
-        while (condition.evaluate() > 0) {
+        while (condition.evaluate() != 0) {
             body.execute();
         }
     }
