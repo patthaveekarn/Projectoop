@@ -1,56 +1,59 @@
+/* styles/WaitingRoom.css */
 .waiting-room-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    background-color: #1a1a1a;
-    color: white;
-    font-family: "Arial", sans-serif;
-  }
-  
-  .waiting-title {
-    font-size: 36px;
-    font-weight: bold;
-    margin-bottom: 20px;
-  }
-  
-  .player-list {
-    background: #333;
-    padding: 20px;
-    border-radius: 10px;
-    width: 300px;
-    text-align: center;
-  }
-  
-  .player-list ul {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .player-list li {
-    font-size: 18px;
-    padding: 10px;
-    border-bottom: 1px solid #555;
-  }
-  
-  .player-list li:last-child {
-    border-bottom: none;
-  }
-  
-  .back-button {
-    background-color: #ff4444;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 18px;
-    margin-top: 20px;
-    cursor: pointer;
-    transition: 0.3s;
-    border-radius: 8px;
-  }
-  
-  .back-button:hover {
-    background-color: #cc0000;
-  }
-  
+  background-color: black; /* เปลี่ยนพื้นหลังเป็นสีดำ */
+  color: white; /* ให้ตัวหนังสือเป็นสีขาว */
+  min-height: 100vh; /* ทำให้พื้นที่เต็มหน้าจอ */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  font-family: 'Arial', sans-serif;
+  text-align: center;
+}
+
+h1 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+p {
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+}
+
+h3 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin-bottom: 20px;
+}
+
+ul li {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+button {
+  background-color: #00cc00; /* สีพื้นหลังของปุ่ม */
+  color: white; /* ตัวหนังสือบนปุ่มเป็นสีขาว */
+  font-size: 1.2rem;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:disabled {
+  background-color: #888; /* สีพื้นของปุ่มเมื่อไม่สามารถกดได้ */
+  cursor: not-allowed;
+}
+
+button:hover:not(:disabled) {
+  background-color: #00cc00; /* เมื่อเมาส์เลื่อนผ่านปุ่ม */
+}

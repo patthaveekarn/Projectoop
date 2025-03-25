@@ -87,27 +87,7 @@ const CustomizeMinion: React.FC = () => {
           ))}
         </div>
 
-        <div className="mb-4">
-          <label
-              htmlFor="dropdown"
-              className="block text-sm font-medium text-gray-700 mb-1"
-          >
-            Select an option
-          </label>
 
-          <select
-              id="dropdown"
-              value={selectedOption}
-              onChange={handleSelectChange}
-              className="block w-full rounded-md border border-gray-300 px-3 py-2 text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
-          >
-            <option value="" disabled>Choose an option</option>
-            <option value="option1">Option 1</option>
-            <option value="option2">Option 2</option>
-            <option value="option3">Option 3</option>
-            <option value="option4">Option 4</option>
-          </select>
-        </div>
         <div className="button-container">
           <button className="back-button" onClick={() => router.push("/ChooseMinion")}>Back</button>
           <button className="next-button" onClick={handleNext} disabled={!isValid}>Next</button>

@@ -1,49 +1,111 @@
 const express = require("express");
 const http = require("http");
-const socketIo = require("socket.io");
+const { Server } = require("socket.io");
 
 const app = express();
 const server = http.createServer(app);
-const io = socketIo(server);
+const io = new Server(server, {
+    cors: {
+        origin: ["http://localhost:3000", "http://127.0.0.1:3000", "http://10.125.161.101:3000"],
+        methods: ["GET", "POST"],
+        credentials: true,
+    },
+});
 
-// เก็บสถานะเกม
-let currentTurn = 0;
-let players = ["player1", "player2"];  // ผู้เล่น 2 คน
-let grid = [];  // ตัวอย่างแผนที่
-let gold = { player1: 10, player2: 10 }; // Gold ของผู้เล่น
+const rooms = {}; // เก็บข้อมูลผู้เล่นในห้อง
+const roomSelections = {}; // เก็บมินเนี่ยนที่เลือกของแต่ละคน
+const confirmedSelections = {}; // เก็บสถานะ Ready ของแต่ละคน
+const grid = []; // ตัวอย่างแผนที่ grid (อาจต้องมีการสร้างเองจากข้อมูลจริง)
 
-// เมื่อผู้เล่นเชื่อมต่อ
+let playersInRooms = {};  // เก็บผู้เล่นในแต่ละห้อง
+
 io.on("connection", (socket) => {
-    console.log("User connected:", socket.id);
+    console.log("🟢 A user connected:", socket.id);
 
-    // ส่งข้อมูลเริ่มต้น
-    socket.emit("update_game_state", { currentTurn });
+    // การเข้าร่วมห้อง
+    socket.on("join_room", (roomId) => {
+        console.log(`ผู้เล่น ${socket.id} เข้าห้อง ${roomId}`);
 
-    // ฟังเหตุการณ์ "buy_hex" จาก client
-    socket.on("buy_hex", (hexData) => {
-        console.log("Hex bought:", hexData);
-        io.emit("hex_updated", hexData); // ส่งข้อมูลการซื้อไปยังทุกคน
+        if (!playersInRooms[roomId]) {
+            playersInRooms[roomId] = [];
+        }
+
+        if (!playersInRooms[roomId].includes(socket.id)) {
+            playersInRooms[roomId].push(socket.id);
+            socket.join(roomId);
+        }
+
+        console.log("✅ Updated Players:", playersInRooms[roomId]);
+        io.to(roomId).emit("update_players", playersInRooms[roomId]);
+
+        // ถ้ามีผู้เล่น 2 คน ให้เริ่มเกม
+        if (playersInRooms[roomId].length === 2) {
+            io.to(roomId).emit("game_started");
+        }
     });
 
-    // ฟังเหตุการณ์ "buy_minion" จาก client
-    socket.on("buy_minion", (data) => {
-        console.log("Minion bought by:", data.player);
-        io.emit("minion_updated", { player: data.player });
+    // เลือกมินเนี่ยน
+    socket.on("select_minion", ({ gameMode, playerId, minionId, action }) => {
+        if (!roomSelections[gameMode]) {
+            roomSelections[gameMode] = {};
+        }
+
+        if (!roomSelections[gameMode][playerId]) {
+            roomSelections[gameMode][playerId] = [];
+        }
+
+        if (action === "add") {
+            if (roomSelections[gameMode][playerId].length < 3) {
+                roomSelections[gameMode][playerId].push(minionId);
+            }
+        } else if (action === "remove") {
+            roomSelections[gameMode][playerId] = roomSelections[gameMode][playerId].filter((id) => id !== minionId);
+        }
+
+        console.log(`🔄 Player ${playerId} updated selection:`, roomSelections[gameMode]);
+        io.to(gameMode).emit("update_selections", roomSelections[gameMode]); // ส่งข้อมูลอัปเดตให้ทุกคน
+    });
+
+    // ยืนยันการเลือกมินเนี่ยน (Ready)
+    socket.on("confirm_selection", ({ gameMode, playerId }) => {
+        if (!confirmedSelections[gameMode]) {
+            confirmedSelections[gameMode] = new Set();
+        }
+
+        confirmedSelections[gameMode].add(playerId);
+        io.to(gameMode).emit("player_ready", Array.from(confirmedSelections[gameMode]));
+
+        if (confirmedSelections[gameMode].size === 2) {
+            io.to(gameMode).emit("selection_complete"); // ทั้ง 2 คนกด Ready แล้ว
+        }
+    });
+
+    // ซื้อ Hex
+    socket.on("hex_bought", ({ row, col, owner }) => {
+        if (!grid[row]) {
+            grid[row] = [];
+        }
+        grid[row][col] = { owner };
+        io.emit("update_hex", grid); // ส่งข้อมูล Hex ที่อัปเดตไปยังผู้เล่นทุกคน
     });
 
     // เปลี่ยนเทิร์น
-    socket.on("end_turn", (data) => {
-        currentTurn = data.nextTurn;
-        io.emit("update_game_state", { currentTurn }); // อัปเดตเทิร์นให้ทุกคน
+    socket.on("switch_turn", (nextTurn) => {
+        io.emit("switch_turn", nextTurn); // ส่งการเปลี่ยนเทิร์นไปยังผู้เล่นทุกคน
     });
 
-    // เมื่อผู้เล่นออกจากเกม
+    // การออกจากห้อง
     socket.on("disconnect", () => {
-        console.log("User disconnected:", socket.id);
+        console.log("🔴 A user disconnected:", socket.id);
+        for (const roomId in playersInRooms) {
+            playersInRooms[roomId] = playersInRooms[roomId].filter(id => id !== socket.id);
+            if (playersInRooms[roomId].length > 0) {
+                io.to(roomId).emit("update_players", playersInRooms[roomId]);
+            }
+        }
     });
 });
 
-// เริ่ม server
 server.listen(4000, () => {
-    console.log("Server running on http://localhost:4000");
+    console.log("🚀 Server running on http://localhost:4000");
 });

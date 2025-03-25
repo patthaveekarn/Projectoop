@@ -3,7 +3,7 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
-import { setGameMode } from "../stores/slices/gameModeSlice";
+import { setGameMode } from "../stores/slices/gameModeSlice";  // Redux action
 import "../styles/ChooseMode.css";
 
 const ChooseMode: React.FC = () => {
@@ -11,13 +11,15 @@ const ChooseMode: React.FC = () => {
     const dispatch = useDispatch();
 
     const handleModeSelect = (mode: "DUEL" | "SINGLE" | "AUTO") => {
-        dispatch(setGameMode(mode)); // ✅ เซ็ต Redux ให้ gameMode มีค่า
-        console.log("🔵 Game Mode Set:", mode); // ✅ Debug Redux State
+        dispatch(setGameMode(mode)); // เซ็ต Redux ให้ gameMode มีค่า
+        console.log("🔵 Game Mode Set:", mode); // Debug Redux State
 
         if (mode === "DUEL") {
-            router.push("/WaitingRoom"); // ✅ Multiplayer ต้องรอผู้เล่น 2 คน
-        } else {
-            router.push("/ChooseMinion"); // ✅ Single & Auto ไปเลือกมินเนี่ยนได้เลย
+            router.push("/WaitingRoom");
+        } else if (mode === "SINGLE") {
+            router.push("/ChooseMinion");
+        } else if (mode === "AUTO") {
+            router.push("/Gameplay");
         }
     };
 
@@ -43,6 +45,5 @@ const ChooseMode: React.FC = () => {
         </div>
     );
 };
-
 
 export default ChooseMode;

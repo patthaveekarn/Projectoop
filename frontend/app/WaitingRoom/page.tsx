@@ -1,12 +1,11 @@
-// frontend/app/WaitingRoom/page.tsx
-"use client";
-
+"use client"
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../stores/store";
 import { setPlayers } from "../stores/slices/gameModeSlice";
 import { socket } from "../libs/socket";
+import '../styles/WaitingRoom.css';
 
 const WaitingRoom: React.FC = () => {
     const router = useRouter();
@@ -47,23 +46,12 @@ const WaitingRoom: React.FC = () => {
         };
     }, [dispatch, router, gameMode]);
 
-    useEffect(() => {
-        // Handle game start
-        socket.on("game_started", () => {
-            console.log("🎮 Game Started! Redirecting...");
-            router.push("/ChooseMinion");
-        });
-
-        return () => {
-            socket.off("game_started");
-        };
-    }, [router]);
-
     const handleStartGame = () => {
+        // Ensure there are exactly 2 players before starting
         if (players.length === 2) {
             console.log("✅ Game Start! Redirecting...");
             socket.emit("start_game");
-            router.push("/ChooseMinion");
+            router.push("/ChooseMinion"); // Redirect to ChooseMinion after starting the game
         } else {
             alert("รอผู้เล่นอีกคน...");
         }
@@ -79,8 +67,12 @@ const WaitingRoom: React.FC = () => {
                     <li key={index}>{player}</li>
                 ))}
             </ul>
-            <button onClick={handleStartGame} disabled={players.length < 2}>
-                Start Game
+            {/* ปุ่ม Start Game จะสามารถกดได้ก็ต่อเมื่อมีผู้เล่นครบ 2 คน */}
+            <button
+                onClick={handleStartGame}
+                disabled={players.length !== 2} // Disable button if less than 2 players
+            >
+                {players.length < 2 ? "รอผู้เล่นอีกคน..." : "Start Game"}
             </button>
         </div>
     );
