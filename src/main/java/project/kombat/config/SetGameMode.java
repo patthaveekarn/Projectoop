@@ -16,19 +16,15 @@ public class SetGameMode {
         PlayerVSPlayer, PlayerVSBot, BotVSBot
     }
 
-    // Endpoint สำหรับการตั้งค่าโหมดเกม
     @PostMapping("/gameMode")
     public void setGameMode(@RequestBody GameMode gameMode) {
-        // ทำการเปลี่ยนแปลงโหมดเกมใน GameState
         GameState gameState = getGameState();
         gameState.setGameMode(gameMode);
 
-        // ส่งข้อมูลโหมดเกมที่อัปเดตไปยัง WebSocket client
         messagingTemplate.convertAndSend("/topic/gameMode", gameMode.name());
     }
 
     private GameState getGameState() {
-        // สมมติว่าเรามี GameState ที่จัดการสถานะของเกม
         return new GameState();
     }
 }
