@@ -19,7 +19,7 @@ const ChooseMode: React.FC = () => {
         } else if (mode === "SINGLE") {
             router.push("/ChooseMinion");
         } else if (mode === "AUTO") {
-            router.push("/Gameplay");
+            router.push("/ChooseMinion");
         }
     };
 

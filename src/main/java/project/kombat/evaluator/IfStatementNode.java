@@ -1,7 +1,5 @@
 package project.kombat.evaluator;
 
-import project.kombat.parser.ExecuteNode;
-
 public class IfStatementNode implements ExecuteNode {
     private final ExpressionNode condition;
     private final ExecuteNode trueBranch;

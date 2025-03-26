@@ -4,30 +4,30 @@ import java.util.regex.Pattern;
 
 public class RegularExpression {
     public static final String ACTION_REGEX = "done|move|shoot";
-    public static final String DONE_REGEX = "done";
-    public static final String MOVE_REGEX = "move";
-    public static final String SHOOT_REGEX = "shoot";
+    public static final String DONE_REGEX = "done";      // คำสั่งจบการทำงาน
+    public static final String MOVE_REGEX = "move";      // คำสั่งเคลื่อนที่
+    public static final String SHOOT_REGEX = "shoot";    // คำสั่งยิง
 
     public static final String DIRECTION_REGEX = "up|down|upleft|upright|downleft|downright";
-    public static final String UP_REGEX = "up";
-    public static final String DOWN_REGEX = "down";
-    public static final String UPLEFT_REGEX = "upleft";
-    public static final String UPRIGHT_REGEX = "upright";
-    public static final String DOWNLEFT_REGEX = "downleft";
-    public static final String DOWNRIGHT_REGEX = "downright";
+    public static final String UP_REGEX = "up";             // ขึ้นบน
+    public static final String DOWN_REGEX = "down";         // ลงล่าง
+    public static final String UPLEFT_REGEX = "upleft";     // ขึ้นซ้าย
+    public static final String UPRIGHT_REGEX = "upright";   // ขึ้นขวา
+    public static final String DOWNLEFT_REGEX = "downleft"; // ลงซ้าย
+    public static final String DOWNRIGHT_REGEX = "downright"; // ลงขวา
 
     public static final String RESERVED_REGEX = "done|move|shoot|if|else|while|then|row|col|budget|int|maxbudget|spawnsleft|random|up|down|upleft|upright|downleft|downright|opponent|nearby";
 
     public static final String SPECIAL_VAR_REGEX = "row|col|budget|int|maxbudget|spawnsleft|random";
 
-    public static final String IF_REGEX = "if";
-    public static final String THEN_REGEX = "then";
-    public static final String ELSE_REGEX = "else";
-    public static final String WHILE_REGEX = "while";
+    public static final String IF_REGEX = "if";       // เงื่อนไข if
+    public static final String THEN_REGEX = "then";   // คำสั่งหลังเงื่อนไข
+    public static final String ELSE_REGEX = "else";   // ทำเมื่อเงื่อนไขไม่เป็นจริง
+    public static final String WHILE_REGEX = "while"; // วนลูปเมื่อเงื่อนไขเป็นจริง
 
     public static final String INFOEXPRESSION_REGEX = "opponent|nearby";
-    public static final String OPPONENT_REGEX = "opponent";
-    public static final String NEARBY_REGEX = "nearby";
+    public static final String OPPONENT_REGEX = "opponent"; // เช็คตำแหน่งศัตรู
+    public static final String NEARBY_REGEX = "nearby";    // เช็คว่ามีอะไรอยู่ใกล้ๆ
 
     public static final String OPERATOR_REGEX = "[-+*/%^]";
 
@@ -41,7 +41,7 @@ public class RegularExpression {
 
     public static final String RANDOM_REGEX = "random";
 
-    public static final String ALL_REGEX = "([-+*/%^])|(=)|([(){}])|([0-9]+)|([a-zA-Z][a-zA-Z0-9]*)|([^ \\r\\n]+)";
+    public static final String ALL_REGEX = "([-+*/%^=])|([(){}])|([0-9]+)|([a-zA-Z][a-zA-Z0-9]*)|(<=|>=|==|!=|<|>)";
 
     public static final String SPLIT_REGEX = "[\\s]+|(?<=[=+\\-*/%(){}^])|(?=[=+\\-*/%(){}^])";
 
