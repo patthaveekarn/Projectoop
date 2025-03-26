@@ -16,40 +16,31 @@ const Kombat: React.FC = () => {
                     <div className="howtoplay-section">
                         <div className="howtoplay-subtitle">เริ่มเกม:</div>
                         <ul>
-                            <li>เลือกผู้เล่นและจะวางประเภทเริ่มต้น</li>
-                            <li>สร้างทีมเกมใหม่และเล่นในพื้นที่ว่าง</li>
-                            <li>เปิดทีมเริ่มต้นผ่านเพื่อพอ</li>
+                            <li>เลือกผู้เล่นและงบประมาณเริ่มต้น</li>
                         </ul>
                     </div>
 
                     <div className="howtoplay-section">
-                        <div className="howtoplay-subtitle">สร้างทีมเริ่มเกม:</div>
+                        <div className="howtoplay-subtitle">สร้างมินเนียน:</div>
                         <ul>
-                            <li>สร้างทีมเริ่มต้นโดยเฉพาะทางวาง</li>
-                            <li>เปิดทีมเริ่มต้นผ่านเพื่อพอ</li>
+                            <li>สร้างมินเนียนใหม่ในสนามที่ว่าง</li>
+                            <li>เมื่อมีงบประมาณเพียงพอ</li>
                         </ul>
                     </div>
 
                     <div className="howtoplay-section">
-                        <div className="howtoplay-subtitle">เงื่อนไขทีมเกม:</div>
+                        <div className="howtoplay-subtitle">เคลื่อนไหวมินเนียน:</div>
                         <ul>
-                            <li>เลือกทีมและเลือกทีพรมฟะเคลื่อนที่</li>
-                        </ul>
-                    </div>
-
-                    <div className="howtoplay-section">
-                        <div className="howtoplay-subtitle">วิธีเล่น:</div>
-                        <ul>
-                            <li>เมื่อยึดพื้นที่และสามารถเคลื่อนที่ได้</li>
-                            <li>เลือกทีมที่มีประสิทธิภาพที่สุดในการต่อสู้</li>
+                            <li>เลือกมินเนียนและเลือกทิศทางที่จะเคลื่อนที่</li>
+                            <li>เมื่อมินเนียนของคุณอยู่ใกล้ฝ่ายตรงข้าม, ให้เลือกโจมตี</li>
                         </ul>
                     </div>
 
                     <div className="howtoplay-section">
                         <div className="howtoplay-subtitle">จบเกม:</div>
                         <ul>
-                            <li>เกมสิ้นสุดลงตามคุณสมบัติที่กำหนด</li>
-                            <li>ผู้เล่นสามารถชนะได้ตามเงื่อนไข HP ลดลง หรือพื้นที่ที่กำหนด</li>
+                            <li>เกมจบเมื่อฝ่ายใดฝ่ายหนึ่งหมดมินเนียนหรือครบจำนวนเทิร์น</li>
+                            <li>ผู้ชนะคือผู้ที่มีมินเนียนเหลือ, HP สูงสุด, หรืองบประมาณมากที่สุด</li>
                         </ul>
                     </div>
                 </div>
